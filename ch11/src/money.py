@@ -2,21 +2,25 @@ from __future__ import annotations
 from typing import cast, TYPE_CHECKING
 if TYPE_CHECKING:
     from dollar import Dollar
+from expression import Expression
 # from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 
 
 @dataclass()
-class Money():
+class Money(Expression):
     _amount: int = field(default=int)
     _currency: str = field(default_factory=str)
-    def __init__(self, amount: int, currency: str) -> None:
-        self._amount = amount
-        self._currency = currency
+    # def __init__(self, amount: int, currency: str) -> None:
+    #     self._amount = amount
+    #     self._currency = currency
 
     # @abstractmethod
     def times(self, multiplier: int) -> Money:
         return Money(self._amount * multiplier, self._currency)
+
+    def plus(self, addend) -> Expression:
+        return Money(self._amount + addend._amount, self._currency)
 
     def get_currency(self) -> str:
         return self._currency
