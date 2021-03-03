@@ -1,0 +1,17 @@
+from __future__ import annotations
+from money import Money
+from expression import Expression
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from bank import Bank
+
+
+@dataclass()
+class SumVal(Expression):
+    augend: 'Money'
+    addend: 'Money'
+
+    def reduce(self, bank: 'Bank', to: str) -> 'Money':
+        amount = self.augend._amount + self.addend._amount
+        return Money(amount, to)
