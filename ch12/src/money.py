@@ -5,11 +5,12 @@ if TYPE_CHECKING:
 from expression import Expression
 # from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
+# from sum_val import SumVal
 
 
 @dataclass()
 class Money(Expression):
-    _amount: int = field(default=int)
+    _amount: int = field(default_factory=int)
     _currency: str = field(default_factory=str)
     # def __init__(self, amount: int, currency: str) -> None:
     #     self._amount = amount
@@ -20,7 +21,11 @@ class Money(Expression):
         return Money(self._amount * multiplier, self._currency)
 
     def plus(self, addend) -> Expression:
-        return Money(self._amount + addend._amount, self._currency)
+        from sum_val import SumVal
+        return SumVal(self, addend)
+
+    def reduce(self, to: str) -> Money:
+        return self
 
     def get_currency(self) -> str:
         return self._currency

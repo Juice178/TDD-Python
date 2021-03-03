@@ -9,6 +9,7 @@ sys.path.append(abs_parent_dir)
 from money import Money
 from bank import Bank
 from typing import cast
+from sum_val import SumVal
 
 
 class TestMoney:
@@ -43,3 +44,26 @@ class TestMoney:
         bank = Bank()
         reduced = bank.reduce(sum_val, "USD")
         assert Money.dollar(10) == reduced
+
+    def test_plus_resturns_sum_addend(self):
+        five = Money.dollar(5)
+        result = five.plus(five)
+        sum_val = cast(SumVal, result)
+        assert five == sum_val.addend
+
+    def test_plus_resturns_sum_augend(self):
+        five = Money.dollar(5)
+        result = five.plus(five)
+        sum_val = cast(SumVal, result)
+        assert five == sum_val.augend
+
+    def test_reduce_sum(self):
+        sum_val = SumVal(Money.dollar(3), Money.dollar(4))
+        bank = Bank()
+        result = bank.reduce(sum_val, "USD")
+        assert Money.dollar(7) == result
+
+    def test_reduce_money(self):
+        bank = Bank()
+        result = bank.reduce(Money.dollar(1), "USD")
+        assert Money.dollar(1) == result
